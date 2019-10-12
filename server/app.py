@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template
-from MuseumsAPI import  # import necessary func and Obj.
+from MuseumsAPI import museum_api, Museum_Activities
 from sql_alchemy_db_instance import db
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
@@ -20,7 +20,7 @@ def create_app():
         os.path.join(project_dir, "vue-flask-museum.db"))
     app.config['SQLALCHEMY_ECHO'] = True
     db.init_app(app)
-    app.register_blueprint(  # function from new file related to my project)
+    app.register_blueprint(museum_api)
 
     return app
 
