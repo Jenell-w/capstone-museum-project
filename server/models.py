@@ -9,3 +9,5 @@ class Museum_Activities(db.Model):
     number_of_kids_taken = db.Column(db.Integer)
     low_age_range_of_child_taken = db.Column(db.Integer)
     high_age_range_of_child_taken = db.Column(db.Integer)
+
+# need another database?  with museum information?

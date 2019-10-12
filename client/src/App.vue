@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img alt="museum image" src="/assets/cartoon-mona-lisa.jpg" />
-    <HelloWorld msg="Welcome to Family ViewSeums!" />
+    <MuseumActivities title="Welcome to Family ViewSeums!" />
   </div>
 </template>
 
