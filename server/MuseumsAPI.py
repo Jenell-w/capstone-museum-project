@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from sql_alchemy_db_instance import db
-from models import Museum_Activities
+from models import Museum_Activities, Museum_Info
 
 museum_api = Blueprint('museum_api', __name__)
 

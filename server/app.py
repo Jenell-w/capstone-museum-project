@@ -17,7 +17,7 @@ def create_app():
                 )
 
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{}".format(
-        os.path.join(project_dir, "vue-flask-museum.db"))
+        os.path.join(project_dir, "../db/vue-flask-museum.db"))
     app.config['SQLALCHEMY_ECHO'] = True
     db.init_app(app)
     app.register_blueprint(museum_api)
