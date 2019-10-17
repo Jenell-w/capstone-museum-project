@@ -2,6 +2,8 @@ import os
 from flask import Flask, render_template
 from MuseumsAPI import museum_api, Museum_Activities
 from sql_alchemy_db_instance import db
+from flask_cors import CORS
+
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
 project_paths = project_dir.split("/")
@@ -23,6 +25,9 @@ def create_app():
     app.register_blueprint(museum_api)
 
     return app
+
+
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 
 def setup_database(app):
