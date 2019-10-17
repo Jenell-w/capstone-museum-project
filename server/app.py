@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template
-from MuseumsAPI import museum_api, Museum_Activities
+from MuseumsAPI import museum_api, Museum_Activities, Museum_Info
 from sql_alchemy_db_instance import db
 
 project_dir = os.path.dirname(os.path.abspath(__file__))

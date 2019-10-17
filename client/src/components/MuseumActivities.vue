@@ -3,7 +3,7 @@
     <h1>{{ title }}</h1>
     <p>Brought to you by Jenell with assistance from Code Forward</p>
     <br />
-    <form class="activity-submission" @submit.prevent="onSubmit">
+    <form class="activity-submission" @submit.prevent="handleSubmit">
       <p>
         <label for="museum-name">Which museum did you go to?</label>
         <input
@@ -28,14 +28,33 @@
           <option>0</option>
           <option>1</option>
           <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+          <option>10</option>
+          <option>11</option>
+          <option>12</option>
         </select>
       </p>
       <p>
         <label for="high-age-range">Oldest child's age:</label>
         <select id="high-age-range" v-model.number="highAgeRange">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
           <option>8</option>
           <option>9</option>
           <option>10</option>
+          <option>11</option>
+          <option>12</option>
         </select>
       </p>
       <p>
@@ -69,10 +88,10 @@ export default {
   data() {
     return {
       activities: [],
-      museumName: null,
-      activityDescription: null,
-      lowAgeRange: null,
-      highAgeRange: null,
+      museumName: "",
+      activityDescription: "",
+      lowAgeRange: "",
+      highAgeRange: "",
       confirmationSubmit: "We have recorded your response"
       //need to determine how many inputs i will get? to add to db?
     };
@@ -91,9 +110,21 @@ export default {
       this.lowAgeRange = null;
       this.highAgeRange = null;
     },
+    handleSubmit() {
+      axios
+        .post("http://127.0.0.1:5000/add-activity", {
+          museumName: this.museumName,
+          activityDescription: this.activityDescription,
+          lowAgeRange: this.lowAgeRange,
+          highAgeRange: this.highAgeRange
+        })
+        .then(() => this.viewAllActivities());
+      this.museumName = ""; //clears out the field for next use
+      let confirmationSubmit = true;
+    },
     viewAllActivities() {
       axios
-        .get("/home")
+        .get("http://127.0.0.1:5000/home")
         .then(res => (this.activities = res.data.activities))
         .catch(error => {
           console.log(error.response + "did we do it?");
@@ -101,9 +132,7 @@ export default {
       /*this.activities is not correct? or data.activity.?
        */
     },
-    confirmSubmit() {
-      let confirmationSubmit = true; //to display 'thank you for submitting' message.
-    }
+    confirmSubmit() {}
   },
   mounted() {
     this.viewAllActivities();
