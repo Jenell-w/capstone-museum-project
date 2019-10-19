@@ -5,10 +5,10 @@
     </div>
     <img
       v-if="!showMuseumHome"
-      alt="museum image"
-      src="https://thumbs.dreamstime.com/z/museum-visitors-looking-painting-hanging-gallery-wall-people-viewing-museum-museum-visitors-looking-painting-99760302.jpg"
-      width="350"
-      height="150"
+      &#x3C;img
+      alt="Vue logo"
+      src="./assets/cartoon-mona-lisa.jpg"
+    />
     />
     <MuseumActivities
       v-if="!showMuseumHome"

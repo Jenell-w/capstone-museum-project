@@ -1,29 +1,27 @@
-# client
+# cd client folder
 
 ## Project setup
+
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Run your tests
+# in another terminal tab:
+
+## Project setup
+
 ```
-npm run test
+cd server
+
+pipenv install
+
+pipenv run python main.py
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## use localhost provided by Flask server.

@@ -11,6 +11,7 @@
           v-model="museumName"
           placeholder="Name of museum"
         />
+        <!-- change museum input for a drop down with museum names already there -->
       </p>
       <p>
         <label for="activity-description">
@@ -67,9 +68,15 @@
     <section class="display-user-input">
       <p>Some user suggested activities are here:</p>
       <br />
-      <p v-for="activity in activities" v-bind:key="activity.id">
-        {{ activity }}
+      <p>
+        <!-- <MuseumHome
+          v-for="activity in activities"
+          v-bind:key="activity.museum_id"
+          :activity="activity"
+          :viewAllActivities="viewAllActivities"
+        />-->
       </p>
+      <!-- above: child component to display the entered activities -->
       <br />
       <p></p>
       <br />
@@ -81,19 +88,25 @@
 
 <script>
 import axios from "axios";
+import MuseumHome from "./MuseumHome.vue";
 
 export default {
   name: "MuseumActivities",
   props: ["title"],
+  components: {
+    MuseumHome
+  },
   data() {
     return {
       activities: [],
       museumName: "",
+      activityName: "",
       activityDescription: "",
+      numberOfKids: "",
       lowAgeRange: "",
       highAgeRange: "",
-      confirmationSubmit: "We have recorded your response"
-      //need to determine how many inputs i will get? to add to db?
+      confirmationSubmit: false
+      //can activities be on a child component page to display?  good idea.
     };
   },
   methods: {
@@ -112,23 +125,31 @@ export default {
     },
     handleSubmit() {
       axios
-        .post("http://127.0.0.1:5000/add-activity", {
-          museumName: this.museumName,
-          activityDescription: this.activityDescription,
-          lowAgeRange: this.lowAgeRange,
-          highAgeRange: this.highAgeRange
+        .post("/add-activity", {
+          museum_name: this.museumName,
+          activity_name: this.activityName,
+          activity_description: this.activityDescription,
+          number_of_kids_taken: this.numberOfKids,
+          low_age_range_of_child_taken: this.lowAgeRange,
+          high_age_range_of_child_taken: this.highAgeRange
         })
-        .then(() => this.viewAllActivities());
+        .then(
+          response => {
+            console.log(response);
+          },
+          error => {
+            console.log(error);
+          }
+        );
       this.museumName = ""; //clears out the field for next use
-      let confirmationSubmit = true;
+      this.confirmationSubmit = true;
     },
     viewAllActivities() {
-      const path = "http://127.0.0.1:5000/home";
       axios
-        .get(path)
+        .get("/home")
         .then(res => (this.activities = res.data.activities))
         .catch(error => {
-          console.log(error.response + "did we do it?");
+          console.log(error.response + " is this an error?");
         });
       /*this.activities is not correct? or data.activity.?
        */

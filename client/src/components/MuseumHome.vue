@@ -1,24 +1,41 @@
 <template>
-  <div class="home">
+  <div class="art-generator">
     <button>Generate Some Interesting Artwork!</button>
     <br />
     <br />
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12084.832829126724!2d-73.963244!3d40.7794366!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x3b2fa4f4b6c6a1fa!2sThe%20Metropolitan%20Museum%20of%20Art!5e0!3m2!1sen!2sus!4v1570913132044!5m2!1sen!2sus"
-      width="600"
-      height="450"
-      frameborder="0"
-      style="border:0;"
-      allowfullscreen
-    ></iframe>
+    <!-- could the external api call be another component? -->
+
+    <div class="museum-activities-container">
+      <p v-bind="activity">{{ activity.museum_id }}</p>
+      <br />
+      <p>{{ activity.activity_name }}</p>
+      <br />
+      <p>{{ activity.activity_name }}</p>
+      <br />
+      <button @click="deleteActivity">Delete this entry</button>
+      <!-- add the api to generate random art and then we can use that route to museums -->
+    </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "MuseumHome",
-  props: ["title"]
+  props: ["activities", "viewAllActivities"],
+  methods: {
+    deleteActivity() {
+      axios
+        .delete("/add-activity/" + this.activity.museum_id)
+        .then(() => this.viewAllActivities);
+    }
+  }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.museum-activities-container {
+  display: flex;
+}
+</style>
