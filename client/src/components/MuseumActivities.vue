@@ -85,20 +85,6 @@
     </form>
     <section class="display-user-input">
       <p>Some user suggested activities are here:</p>
-      <br />
-      <MuseumHome
-        v-for="activity in activities"
-        :key="activity.id"
-        :activity_name="activityName"
-        :viewAllActivities="viewAllActivities"
-      />
-
-      <!-- above: child component to display the entered activities NOT DISPLAYING :( ) -->
-      <br />
-      <p></p>
-      <br />
-      <p></p>
-      <br />
     </section>
   </div>
 </template>
@@ -140,8 +126,11 @@ export default {
         })
         .then(response => {
           console.log(response);
+          this.activities = response.config.data;
+          console.log(response);
+          //need to get this to display in some place!!!!!
         });
-      this.museumName = ""; //clears out the field for next use
+      this.museumName = ""; //clears out the fields for next use - ADD FIELDS
       this.confirmationSubmit = "Thanks for your response"; // revert to previos structure wuth error and response printing. argh!
     },
     viewAllActivities() {
