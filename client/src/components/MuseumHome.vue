@@ -1,16 +1,12 @@
 <template>
   <div class="art-generator">
+    <!-- how to make this button only appear when on this page? -->
     <button>Generate Some Interesting Artwork!</button>
     <br />
     <br />
     <!-- could the external api call be another component? -->
 
     <div class="museum-activities-container">
-      <p v-bind="activity">{{ activity.museum_id }}</p>
-      <br />
-      <p>{{ activity.activity_name }}</p>
-      <br />
-      <p>{{ activity.activity_name }}</p>
       <br />
       <button @click="deleteActivity">Delete this entry</button>
       <!-- add the api to generate random art and then we can use that route to museums -->
@@ -27,8 +23,9 @@ export default {
   methods: {
     deleteActivity() {
       axios
-        .delete("/add-activity/" + this.activity.museum_id)
+        .delete("/add-activity/" + this.new_activity.id)
         .then(() => this.viewAllActivities);
+      // write route with PATCH method in MusAPI.py.  see Phil's patch
     }
   }
 };

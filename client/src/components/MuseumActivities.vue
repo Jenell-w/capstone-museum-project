@@ -1,30 +1,48 @@
 <template>
   <div class="hello">
     <h1>{{ title }}</h1>
-    <p>Brought to you by Jenell with assistance from Code Forward</p>
+    <h3>
+      Please enter a fun activity you have completed (or attempted!) at a museum
+    </h3>
     <br />
     <form class="activity-submission" @submit.prevent="handleSubmit">
       <p>
         <label for="museum-name">Which museum did you go to?</label>
-        <input
-          id="museum-name"
-          v-model="museumName"
-          placeholder="Name of museum"
-        />
-        <!-- change museum input for a drop down with museum names already there -->
+        <select id="museum-name" v-model="museumId" name="Select a museum">
+          <option value="0">The Metropolitan Museum of Art, NYC</option>
+          <option value="1">Museum of Fine Arts, Boston</option>
+          <option value="2">Art Institute of Chicago</option>
+          <option value="3">National Gallery of Art, Wash DC</option>
+          <option value="4">Denver Art Museum</option>
+        </select>
       </p>
       <p>
-        <label for="activity-description">
-          What fun activity did you do? What did you bring with you for the
-          children to do?
-        </label>
+        <label for="activity-name">What fun activity did you do?</label>
+        <input id="activity-name" v-model="activityName" />
+      </p>
+      <p>
+        <label for="activity-description"
+          >What did you bring with you for the children to do?</label
+        >
         <textarea
           id="activity-description"
           v-model="activityDescription"
         ></textarea>
       </p>
       <p>
-        <label for="low-age-range">Youngest child's age:</label>
+        <label for="number-of-kids">How many kids did you bring?</label>
+        <select id="number-of-kids" v-model.number="numberOfKids">
+          <option>0</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+        </select>
+      </p>
+      <p>
+        <label for="low-age-range"
+          >Youngest child's age (Please select 0 if child is under 1):</label
+        >
         <select id="low-age-range" v-model.number="lowAgeRange">
           <option>0</option>
           <option>1</option>
@@ -68,15 +86,14 @@
     <section class="display-user-input">
       <p>Some user suggested activities are here:</p>
       <br />
-      <p>
-        <!-- <MuseumHome
-          v-for="activity in activities"
-          v-bind:key="activity.museum_id"
-          :activity="activity"
-          :viewAllActivities="viewAllActivities"
-        />-->
-      </p>
-      <!-- above: child component to display the entered activities -->
+      <MuseumHome
+        v-for="activity in activities"
+        :key="activity.id"
+        :activity_name="activityName"
+        :viewAllActivities="viewAllActivities"
+      />
+
+      <!-- above: child component to display the entered activities NOT DISPLAYING :( ) -->
       <br />
       <p></p>
       <br />
@@ -99,62 +116,38 @@ export default {
   data() {
     return {
       activities: [],
-      museumName: "",
+      museumId: "",
       activityName: "",
       activityDescription: "",
       numberOfKids: "",
       lowAgeRange: "",
       highAgeRange: "",
-      confirmationSubmit: false
+      confirmationSubmit: ""
       //can activities be on a child component page to display?  good idea.
     };
   },
   methods: {
-    onSubmit() {
-      let museumActivity = {
-        museumName: this.museumName,
-        activityDescription: this.activityDescription,
-        lowAgeRange: this.lowAgeRange,
-        highAgeRange: this.highAgeRange
-      };
-      this.$emit("information-submitted", museumActivity);
-      this.museumName = null;
-      this.activityDescription = null;
-      this.lowAgeRange = null;
-      this.highAgeRange = null;
-    },
+    onSubmit() {},
     handleSubmit() {
       axios
         .post("/add-activity", {
-          museum_name: this.museumName,
+          museum_id: this.museumId,
           activity_name: this.activityName,
-          activity_description: this.activityDescription,
+          activity_descrip: this.activityDescription,
           number_of_kids_taken: this.numberOfKids,
           low_age_range_of_child_taken: this.lowAgeRange,
           high_age_range_of_child_taken: this.highAgeRange
         })
-        .then(
-          response => {
-            console.log(response);
-          },
-          error => {
-            console.log(error);
-          }
-        );
+        .then(response => {
+          console.log(response);
+        });
       this.museumName = ""; //clears out the field for next use
-      this.confirmationSubmit = true;
+      this.confirmationSubmit = "Thanks for your response"; // revert to previos structure wuth error and response printing. argh!
     },
     viewAllActivities() {
-      axios
-        .get("/home")
-        .then(res => (this.activities = res.data.activities))
-        .catch(error => {
-          console.log(error.response + " is this an error?");
-        });
-      /*this.activities is not correct? or data.activity.?
-       */
-    },
-    confirmSubmit() {}
+      axios.get("/home").then(res => (this.activities = res.data.activities));
+      // the data exists in config.data (json) so how can it display on page
+    }
   },
   mounted() {
     this.viewAllActivities();

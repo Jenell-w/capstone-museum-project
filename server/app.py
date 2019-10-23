@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template
 from MuseumsAPI import museum_api
 from sql_alchemy_db_instance import db
-
+import pandas as pd
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
 project_paths = project_dir.split("/")
@@ -29,3 +29,13 @@ def create_app():
 def setup_database(app):
     with app.app_context():
         db.create_all()
+
+        engine = db.get_engine()
+        csv_file_path = 'museum-names.csv'
+
+        # read CSV with Pandas
+        with open(csv_file_path, 'r') as file:
+            df = pd.read_csv(file)
+        # Insert to DB
+        df.to_sql('museuminfo', con=engine,
+                  index_label='id', if_exists='replace')

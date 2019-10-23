@@ -1,46 +1,47 @@
 <template>
   <div id="app">
-    <div class="navigation-button">
-      <button @click="handleNav">{{ buttonText }}</button>
-    </div>
     <img
       v-if="!showMuseumHome"
-      &#x3C;img
       alt="Vue logo"
       src="./assets/cartoon-mona-lisa.jpg"
     />
-    />
+    <div class="navigation-button">
+      <button @click="handleNav">{{ buttonText }}</button>
+    </div>
     <MuseumActivities
       v-if="!showMuseumHome"
       title="Welcome to Family ViewSeums!"
     />
-    <MuseumHome v-if="showMuseumHome" />
+    <MuseumHome v-if="!showMuseumHome" />
+    <!-- <AddMuseum /> -->
   </div>
 </template>
 
 <script>
 import MuseumActivities from "./components/MuseumActivities.vue";
 import MuseumHome from "./components/MuseumHome.vue";
+import AddMuseum from "./components/AddMuseum.vue";
 
 export default {
   name: "app",
   components: {
     MuseumActivities,
-    MuseumHome
+    MuseumHome,
+    AddMuseum
   },
   data() {
     return {
       showMuseumHome: false,
-      buttonText: "Go to Activity Page"
+      buttonText: "View Family-Friendly Activities"
     };
   },
   methods: {
     handleNav() {
       this.showMuseumHome = !this.showMuseumHome;
-      if (this.buttonText === "Go to Activity Page") {
+      if (this.buttonText === "View Family-Friendly Activities") {
         this.buttonText = "Go to Family Viewseums Home";
       } else {
-        this.buttonText = "Go to Activity Page";
+        this.buttonText = "View Family-Friendly Activities";
       }
     }
   }
