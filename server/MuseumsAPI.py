@@ -14,8 +14,6 @@ def view_all_museum_activities():
                           "low_age_range": activity.low_age_range_of_child_taken,
                           "high_age_range": activity.high_age_range_of_child_taken} for activity in activity_instances]
     return jsonify({"activities": activity_examples})
-# make a new route /museums GET so as to return mus id, name, city, to display in drop down.
-# use v-for to iterate over (in Vue)
 
 
 @museum_api.route('/add-museum', methods=['POST'])
@@ -27,9 +25,14 @@ def add_new_museum():
     db.session.commit()
 
     return jsonify(success=True)
-    # make this a separate work flow - new endpoint '/add-museum'
-    # so there is only 1 id per museum.  but users are not entering this info
-    # so how can i have just info there that is then tied to the pre-existing museum name/id?
+
+
+@museum_api.route('/museum', methods=['GET'])
+def view_all_museums():
+    museum_instances = db.session.query(MuseumInfo).all()
+    museum_list = [{"id": museum.id, "museum_name": museum.museum_name,
+                    "museum_city": museum.museum_city} for museums in museum_instances]
+    return jsonify({"museums": museum_list})
 
 
 @museum_api.route('/add-activity', methods=['POST'])
@@ -44,4 +47,15 @@ def add_new_activity():
     db.session.add(new_activity)
     db.session.commit()
 
+    return jsonify(success=True)
+
+
+@museum_api.route('/add-activity', methods=['PATCH'])
+def delete_activity():
+    activity_id = request.json["id"]
+    target_activity = db.session.query(
+        MuseumActivities).filter_by(id=activity_id).first()
+    db.session.add(target_todo)
+    # why is above not .delete method?
+    db.session.commit()
     return jsonify(success=True)

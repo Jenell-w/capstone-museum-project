@@ -22,6 +22,8 @@ cd server
 pipenv install
 
 pipenv run python main.py
+
+seed data provided by museum-names.csv file.
 ```
 
 ## use localhost provided by Flask server.

@@ -13,12 +13,12 @@
       v-if="!showMuseumHome"
       title="Welcome to Family ViewSeums!"
     />
-    <MuseumHome v-if="!showMuseumHome" />
-    <!-- <div class="second-nav-button">
-      <button @click="showAllActivities"> {{ }}
-    </div>-->
+    <MuseumHome v-if="showMuseumHome" />
+
     <!-- <AddMuseum /> -->
-    <!-- <ViewActivities /> -->
+    <section class="view-activities">
+      <ViewActivities v-if="!showMuseumHome" />
+    </section>
   </div>
 </template>
 
@@ -39,16 +39,17 @@ export default {
   data() {
     return {
       showMuseumHome: false,
-      buttonText: "View Family-Friendly Activities"
+      buttonText: "Click here for a pre-museum activity!",
+      activities: ""
     };
   },
   methods: {
     handleNav() {
       this.showMuseumHome = !this.showMuseumHome;
-      if (this.buttonText === "View Family-Friendly Activities") {
+      if (this.buttonText === "Click here for a pre-museum activity!") {
         this.buttonText = "Go to Family Viewseums Home";
       } else {
-        this.buttonText = "View Family-Friendly Activities";
+        this.buttonText = "Click here for a pre-museum activity!";
       }
     }
   }

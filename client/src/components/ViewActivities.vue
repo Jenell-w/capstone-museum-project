@@ -1,20 +1,32 @@
 <template>
   <div class="activity-list">
-    <ul></ul>
-    <div class="museum-activities-container">
-      <br />
-      <button @click="deleteActivity">Delete this entry</button>
-    </div>
+    <!-- <p>{{ activities.activity_descrip }}</p> -->
   </div>
 </template>
 
 <script>
-// should the viewALLActivities function go here to display here or will it
-// be imported from another function.
-//import axios from "axios";
+import axios from "axios";
+import ViewActivities from "./ViewActivities.vue";
 
 export default {
-  name: "MuseumHome",
-  props: ["activities", "viewAllActivities"]
+  name: "ViewActivities",
+  props: {
+    activities: String
+    // coming up as undefined - all info exists in the activities data in MuseumActivities
+  },
+  components: {
+    ViewActivities
+  },
+  methods: {
+    viewAllActivities() {
+      axios.get("/home").then(res => (this.activities = res.config.data));
+      console.log(this.activities);
+      console.log("did this work?");
+      // the data exists in config.data (json) so how can it display on page
+    }
+  },
+  mounted() {
+    this.viewAllActivities();
+  }
 };
 </script>

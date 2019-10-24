@@ -15,11 +15,13 @@
           <option value="3">National Gallery of Art, Wash DC</option>
           <option value="4">Denver Art Museum</option>
         </select>
+        <!-- change this to read v-for directly from the database w db id not my values -->
       </p>
       <p>
         <label for="activity-name">What fun activity did you do?</label>
         <input id="activity-name" v-model="activityName" />
       </p>
+      <br />
       <p>
         <label for="activity-description"
           >What did you bring with you for the children to do?</label
@@ -29,6 +31,7 @@
           v-model="activityDescription"
         ></textarea>
       </p>
+      <br />
       <p>
         <label for="number-of-kids">How many kids did you bring?</label>
         <select id="number-of-kids" v-model.number="numberOfKids">
@@ -39,6 +42,7 @@
           <option>4</option>
         </select>
       </p>
+      <br />
       <p>
         <label for="low-age-range"
           >Youngest child's age (Please select 0 if child is under 1):</label
@@ -85,6 +89,12 @@
     </form>
     <section class="display-user-input">
       <p>Some user suggested activities are here:</p>
+      <br />
+      <hr />
+
+      <p>{{ activities }}</p>
+      <!-- data is only displaying here. on submit, just that row of data displays
+      how can i fix this???-->
     </section>
   </div>
 </template>
@@ -92,12 +102,14 @@
 <script>
 import axios from "axios";
 import MuseumHome from "./MuseumHome.vue";
+import ViewActivities from "./ViewActivities.vue";
 
 export default {
   name: "MuseumActivities",
   props: ["title"],
   components: {
-    MuseumHome
+    MuseumHome,
+    ViewActivities
   },
   data() {
     return {
@@ -113,7 +125,6 @@ export default {
     };
   },
   methods: {
-    onSubmit() {},
     handleSubmit() {
       axios
         .post("/add-activity", {
@@ -131,10 +142,11 @@ export default {
           //need to get this to display in some place!!!!!
         });
       this.museumName = ""; //clears out the fields for next use - ADD FIELDS
-      this.confirmationSubmit = "Thanks for your response"; // revert to previos structure wuth error and response printing. argh!
+      this.confirmationSubmit = "Thanks for your response";
     },
     viewAllActivities() {
       axios.get("/home").then(res => (this.activities = res.data.activities));
+      console.log(this.activities);
       // the data exists in config.data (json) so how can it display on page
     }
   },
@@ -144,5 +156,4 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped></style>

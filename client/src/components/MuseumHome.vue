@@ -1,15 +1,20 @@
 <template>
   <div class="art-generator">
-    <!-- how to make this button only appear when on this page? -->
-    <button @click.prevent="showArtwork">Show Me Some Artwork!</button>
+    <button class="art-button" @click.prevent="showArtwork">
+      Show Me Some Artwork!
+    </button>
+    <br />
+    <p>
+      <strong>Ask your child</strong>
+    </p>
+    <ul>
+      <li>What is going on in this image?</li>
+      <li>What type of artwork is it?</li>
+      <li>Have we seen anything similar?</li>
+    </ul>
     <br />
     <img id="artwork-image" v-bind:src="imgSrc" v-if="imgSrc" />
     <!-- could the external api call be another component? -->
-
-    <div class="museum-activities-container">
-      <br />
-      <button @click="deleteActivity">Delete this entry</button>
-    </div>
   </div>
 </template>
 
@@ -18,7 +23,7 @@ import axios from "axios";
 
 export default {
   name: "MuseumHome",
-  props: ["activities", "viewAllActivities"],
+  props: ["activity"],
   data() {
     return {
       results: [],
@@ -30,15 +35,7 @@ export default {
       axios
         .delete("/add-activity/" + this.new_activity.id)
         .then(() => this.viewAllActivities);
-      // write route with PATCH method in MusAPI.py.  see Phil's patch
-      //       @todos_api.route('/todo', methods=['PATCH'])
-      // def toggle_done():
-      //     todo_id = request.json["id"]
-      //     target_todo = db.session.query(Todo).filter_by(id=todo_id).first()
-      //     target_todo.done = not target_todo.done
-      //     db.session.add(target_todo)
-      //     db.session.commit()
-      //     return jsonify(success=True)
+      // this method needs to move to another component with the Patch method?
     },
     showArtwork() {
       const apiKey = "da60e2a0-f542-11e9-9327-73371ae36eb5";
@@ -58,7 +55,12 @@ export default {
 </script>
 
 <style scoped>
-.museum-activities-container {
-  display: flex;
+.art-button {
+  background-color: coral;
+  font-size: 75%;
+}
+.art-button:hover {
+  font-style: italic;
+  font-size: 100%;
 }
 </style>
