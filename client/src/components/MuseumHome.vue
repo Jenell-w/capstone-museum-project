@@ -5,6 +5,10 @@
     </button>
     <br />
     <p>
+      Thank you
+      <a href="https://www.harvardartmuseums.org/">Harvard Art Museum!</a>
+    </p>
+    <p>
       <strong>Ask your child</strong>
     </p>
     <ul>
@@ -14,7 +18,6 @@
     </ul>
     <br />
     <img id="artwork-image" v-bind:src="imgSrc" v-if="imgSrc" />
-    <!-- could the external api call be another component? -->
   </div>
 </template>
 

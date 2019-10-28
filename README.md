@@ -2,16 +2,20 @@
 
 In one terminal tab:
 
-cd client
+`cd client`
 
-npm install
+`npm install`
 
-npm run build
+`npm run build`
+
+## use web address given in the python tab (below)
 
 In a new tab:
 
-cd server
+`cd server`
 
-pipenv install
+`pipenv install`
 
-pipenv run python main.py
+`pipenv run python main.py`
+
+**when db is created, it will be seeded with data from csv file.**

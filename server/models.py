@@ -1,5 +1,5 @@
 from sql_alchemy_db_instance import db
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import ForeignKey
 
 
@@ -19,4 +19,4 @@ class MuseumInfo(db.Model):
     museum_name = db.Column(db.String(200))
     museum_city = db.Column(db.String(200))
 
-# are databases accurately connected- do i need a specific foreign_key or does relationship work (L13)?
+# problem is: how to use sessions in python so as to delete all data from table.

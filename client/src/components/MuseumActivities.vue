@@ -1,15 +1,19 @@
 <template>
   <div class="hello">
     <h1>{{ title }}</h1>
-    <h3>
-      Please enter a fun activity you have completed (or attempted!) at a museum
-    </h3>
+    <h3>Please enter a fun activity you have completed (or attempted!) at a museum</h3>
     <br />
-    <form class="activity-submission" @submit.prevent="handleSubmit">
+    <form class="activity-submission" @submit="handleSubmit">
       <p>
         <label for="museum-name">Which museum did you go to?</label>
-        <select id="museum-name" v-model="museumId" name="Select a museum">
-          <option value="0">The Metropolitan Museum of Art, NYC</option>
+        <select id="museum-name" v-model="museums" name="Select a museum">
+          <!-- <option
+            v-for="museum in museums"
+            :key="museum.id"
+            :museumList="museumList"
+            :value="museum.id"
+          >{{ museum.museum_name }}</option-->
+          >
           <option value="1">Museum of Fine Arts, Boston</option>
           <option value="2">Art Institute of Chicago</option>
           <option value="3">National Gallery of Art, Wash DC</option>
@@ -23,13 +27,8 @@
       </p>
       <br />
       <p>
-        <label for="activity-description"
-          >What did you bring with you for the children to do?</label
-        >
-        <textarea
-          id="activity-description"
-          v-model="activityDescription"
-        ></textarea>
+        <label for="activity-description">Describe what you did and/or what you brought with you?</label>
+        <textarea id="activity-description" v-model="activityDescription"></textarea>
       </p>
       <br />
       <p>
@@ -44,9 +43,7 @@
       </p>
       <br />
       <p>
-        <label for="low-age-range"
-          >Youngest child's age (Please select 0 if child is under 1):</label
-        >
+        <label for="low-age-range">Youngest child's age (Please select 0 if child is under 1):</label>
         <select id="low-age-range" v-model.number="lowAgeRange">
           <option>0</option>
           <option>1</option>
@@ -83,37 +80,48 @@
       <p>
         <input type="submit" value="Tell us about it!" />
       </p>
-      <div class="submitted-message" v-if="confirmationSubmit">
-        {{ confirmationSubmit }}
-      </div>
+      <div class="submitted-message" v-if="confirmationSubmit">{{ confirmationSubmit }}</div>
     </form>
+    <hr />
     <section class="display-user-input">
-      <p>Some user suggested activities are here:</p>
+      <p>Some user suggested activities:</p>
       <br />
       <hr />
+      <div
+        class="museum-activity"
+        v-for="activity in activities"
+        :key="activity.id"
+        :viewAllActivities="viewAllActivities"
+      >
+        <p>Name of Activity: {{ activity.activity_name }}</p>
+        <p>Description of activity: {{ activity.activity_descrip }}</p>
+        <p>Oldest child:{{ activity.high_age_range }}</p>
+        <p>Youngest child:{{ activity.low_age_range }}</p>
+        <p>Number of children taken:{{ activity.num_kids_taken }}</p>
 
-      <p>{{ activities }}</p>
-      <!-- data is only displaying here. on submit, just that row of data displays
-      how can i fix this???-->
+        <button @click="deleteActivity">Delete this activity</button>
+      </div>
+
+      <!-- now the data is here: need a delete button here, to delete item, need to tie the 
+      activity id to the museum id-->
     </section>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import MuseumHome from "./MuseumHome.vue";
 import ViewActivities from "./ViewActivities.vue";
 
 export default {
   name: "MuseumActivities",
   props: ["title"],
   components: {
-    MuseumHome,
     ViewActivities
   },
   data() {
     return {
       activities: [],
+      museums: "",
       museumId: "",
       activityName: "",
       activityDescription: "",
@@ -135,25 +143,37 @@ export default {
           low_age_range_of_child_taken: this.lowAgeRange,
           high_age_range_of_child_taken: this.highAgeRange
         })
-        .then(response => {
-          console.log(response);
-          this.activities = response.config.data;
-          console.log(response);
-          //need to get this to display in some place!!!!!
-        });
+        .then(() => this.viewAllActivities());
       this.museumName = ""; //clears out the fields for next use - ADD FIELDS
-      this.confirmationSubmit = "Thanks for your response";
+      this.confirmationSubmit = "Thanks for your response!";
     },
     viewAllActivities() {
       axios.get("/home").then(res => (this.activities = res.data.activities));
       console.log(this.activities);
-      // the data exists in config.data (json) so how can it display on page
+    },
+    museumList() {
+      axios.get("/museum").then(res => (this.museums = res.data.museums));
+    },
+    // deleteActivity() {
+    //   axios
+    //     .delete("/activity/" + this.activities.id)
+    //     .then(() => this.viewAllActivities());
+    // },
+    viewId() {
+      console.log(this.activities.id);
     }
   },
   mounted() {
     this.viewAllActivities();
+    //the most recently entered activity will display at bottom.
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.museum-activity {
+  padding: 2em;
+  width: 100%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+</style>

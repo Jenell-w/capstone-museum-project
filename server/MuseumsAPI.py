@@ -31,7 +31,7 @@ def add_new_museum():
 def view_all_museums():
     museum_instances = db.session.query(MuseumInfo).all()
     museum_list = [{"id": museum.id, "museum_name": museum.museum_name,
-                    "museum_city": museum.museum_city} for museums in museum_instances]
+                    "museum_city": museum.museum_city} for museum in museum_instances]
     return jsonify({"museums": museum_list})
 
 
@@ -50,12 +50,11 @@ def add_new_activity():
     return jsonify(success=True)
 
 
-@museum_api.route('/add-activity', methods=['PATCH'])
-def delete_activity():
-    activity_id = request.json["id"]
+@museum_api.route('/activity/<int:activity_id>', methods=['DELETE'])
+def delete_activity_fromlist(activity_id):
     target_activity = db.session.query(
         MuseumActivities).filter_by(id=activity_id).first()
-    db.session.add(target_todo)
-    # why is above not .delete method?
+    db.session.delete(target_activity)
     db.session.commit()
     return jsonify(success=True)
+    # this works! it will delete activity by id.
