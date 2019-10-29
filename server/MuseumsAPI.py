@@ -57,4 +57,4 @@ def delete_activity_fromlist(activity_id):
     db.session.delete(target_activity)
     db.session.commit()
     return jsonify(success=True)
-    # this works! it will delete activity by id.
+    # this works via Postman but not on front end! it will delete activity by id.

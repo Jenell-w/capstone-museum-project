@@ -37,5 +37,5 @@ def setup_database(app):
         with open(csv_file_path, 'r') as file:
             df = pd.read_csv(file)
         # Insert to DB
-        df.to_sql('museuminfo', con=engine,
+        df.to_sql('museum_info', con=engine,
                   index_label='id', if_exists='replace')

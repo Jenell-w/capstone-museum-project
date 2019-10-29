@@ -1,23 +1,20 @@
 <template>
   <div class="hello">
     <h1>{{ title }}</h1>
-    <h3>Please enter a fun activity you have completed (or attempted!) at a museum</h3>
+    <h3>
+      Please enter a fun activity you have completed (or attempted!) at a museum
+    </h3>
     <br />
     <form class="activity-submission" @submit="handleSubmit">
       <p>
         <label for="museum-name">Which museum did you go to?</label>
-        <select id="museum-name" v-model="museums" name="Select a museum">
-          <!-- <option
+        <select id="museum-name" v-model="museum" name="Select a museum">
+          <option
             v-for="museum in museums"
             :key="museum.id"
-            :museumList="museumList"
             :value="museum.id"
-          >{{ museum.museum_name }}</option-->
+            >{{ museum.museum_name }}</option
           >
-          <option value="1">Museum of Fine Arts, Boston</option>
-          <option value="2">Art Institute of Chicago</option>
-          <option value="3">National Gallery of Art, Wash DC</option>
-          <option value="4">Denver Art Museum</option>
         </select>
         <!-- change this to read v-for directly from the database w db id not my values -->
       </p>
@@ -27,8 +24,13 @@
       </p>
       <br />
       <p>
-        <label for="activity-description">Describe what you did and/or what you brought with you?</label>
-        <textarea id="activity-description" v-model="activityDescription"></textarea>
+        <label for="activity-description"
+          >Describe what you did and/or what you brought with you?</label
+        >
+        <textarea
+          id="activity-description"
+          v-model="activityDescription"
+        ></textarea>
       </p>
       <br />
       <p>
@@ -43,7 +45,9 @@
       </p>
       <br />
       <p>
-        <label for="low-age-range">Youngest child's age (Please select 0 if child is under 1):</label>
+        <label for="low-age-range"
+          >Youngest child's age (Please select 0 if child is under 1):</label
+        >
         <select id="low-age-range" v-model.number="lowAgeRange">
           <option>0</option>
           <option>1</option>
@@ -80,7 +84,9 @@
       <p>
         <input type="submit" value="Tell us about it!" />
       </p>
-      <div class="submitted-message" v-if="confirmationSubmit">{{ confirmationSubmit }}</div>
+      <div class="submitted-message" v-if="confirmationSubmit">
+        {{ confirmationSubmit }}
+      </div>
     </form>
     <hr />
     <section class="display-user-input">
@@ -102,8 +108,8 @@
         <button @click="deleteActivity">Delete this activity</button>
       </div>
 
-      <!-- now the data is here: need a delete button here, to delete item, need to tie the 
-      activity id to the museum id-->
+      <!-- how to delete item, need to tie the 
+      activity id to the museum id- why is button showing up again?-->
     </section>
   </div>
 </template>
@@ -121,7 +127,8 @@ export default {
   data() {
     return {
       activities: [],
-      museums: "",
+      museums: [],
+      museum: "",
       museumId: "",
       activityName: "",
       activityDescription: "",
@@ -152,19 +159,29 @@ export default {
       console.log(this.activities);
     },
     museumList() {
-      axios.get("/museum").then(res => (this.museums = res.data.museums));
+      axios.get("/museum").then(res => {
+        this.museums = res.data.museums;
+        this.museum = this.museums[0].id;
+        console.log("our museums are ", this.museums);
+      });
     },
-    // deleteActivity() {
-    //   axios
-    //     .delete("/activity/" + this.activities.id)
-    //     .then(() => this.viewAllActivities());
-    // },
+    deleteActivity() {
+      axios
+        .delete("/activity/" + this.activities.id)
+        .then(() => this.viewAllActivities());
+    },
     viewId() {
       console.log(this.activities.id);
     }
   },
+  watch: {
+    museum() {
+      console.log(this.museum);
+    }
+  },
   mounted() {
     this.viewAllActivities();
+    this.museumList();
     //the most recently entered activity will display at bottom.
   }
 };
@@ -172,6 +189,7 @@ export default {
 
 <style scoped>
 .museum-activity {
+  display: flex;
   padding: 2em;
   width: 100%;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
