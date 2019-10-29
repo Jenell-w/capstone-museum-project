@@ -7,7 +7,10 @@
     <br />
     <form class="activity-submission" @submit="handleSubmit">
       <p>
-        <label for="museum-name">Which museum did you go to?</label>
+        <label for="museum-name"
+          >Which museum did you go to? (add a new museum below!)</label
+        >
+        <!-- select drop down reads from museum_info table in db -->
         <select id="museum-name" v-model="museum" name="Select a museum">
           <option
             v-for="museum in museums"
@@ -16,7 +19,7 @@
             >{{ museum.museum_name }}</option
           >
         </select>
-        <!-- change this to read v-for directly from the database w db id not my values -->
+        <AddMuseum />
       </p>
       <p>
         <label for="activity-name">What fun activity did you do?</label>
@@ -116,13 +119,14 @@
 
 <script>
 import axios from "axios";
-import ViewActivities from "./ViewActivities.vue";
+// import ViewActivities from "./ViewActivities.vue";
+import AddMuseum from "./AddMuseum.vue";
 
 export default {
   name: "MuseumActivities",
   props: ["title"],
   components: {
-    ViewActivities
+    AddMuseum
   },
   data() {
     return {
@@ -143,7 +147,7 @@ export default {
     handleSubmit() {
       axios
         .post("/add-activity", {
-          museum_id: this.museumId,
+          museum_id: this.museum, // coming up blank, not getting the ID from museumInfo table
           activity_name: this.activityName,
           activity_descrip: this.activityDescription,
           number_of_kids_taken: this.numberOfKids,
@@ -151,7 +155,6 @@ export default {
           high_age_range_of_child_taken: this.highAgeRange
         })
         .then(() => this.viewAllActivities());
-      this.museumName = ""; //clears out the fields for next use - ADD FIELDS
       this.confirmationSubmit = "Thanks for your response!";
     },
     viewAllActivities() {
@@ -167,16 +170,16 @@ export default {
     },
     deleteActivity() {
       axios
-        .delete("/activity/" + this.activities.id)
+        .delete("/activity/" + this.activities[0].id) //not deleting right activity
         .then(() => this.viewAllActivities());
-    },
-    viewId() {
-      console.log(this.activities.id);
     }
   },
   watch: {
     museum() {
-      console.log(this.museum);
+      console.log("museum id is", this.museum);
+    },
+    activities() {
+      console.log(this.activities[0].id);
     }
   },
   mounted() {
@@ -189,7 +192,6 @@ export default {
 
 <style scoped>
 .museum-activity {
-  display: flex;
   padding: 2em;
   width: 100%;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);

@@ -1,29 +1,69 @@
 <template>
-  <div class="add">
-    <div class="add-museum-container">
-      <br />
-
-      <button @click="addNewMuseum">Add a New Museum You visited!</button>
-      <!-- add the api to generate random art and then we can use that route to museums -->
-    </div>
+  <div class="add-museum-container">
+    <br />
+    <form class="museum-submission" @submit="addNewMuseum">
+      <ul>
+        <li>
+          <label for="museum-name">Museum Name:</label>
+          <input id="museum-name" v-model="museumName" />
+        </li>
+        <li>
+          <label for="museum-city">Museum City:</label>
+          <input id="museum-city" v-model="museumCity" />
+        </li>
+      </ul>
+      <input type="submit" value="Add a Museum you visited" />
+    </form>
+    <!-- add the api to generate random art and then we can use that route to museums -->
   </div>
+  <!-- need to fix MuseumsAPI file to get the museum entered in db -->
 </template>
 
 <script>
-//import axios from "axios";
+import axios from "axios";
 
 export default {
   name: "AddMuseum",
-  props: [],
+  props: ["museums"],
   data() {
     return {
-      museum_name: ""
+      museumID: "",
+      museumName: "",
+      museumCity: "",
+      message: ""
     };
   },
   methods: {
-    addNewMuseum() {}
+    addNewMuseum() {
+      axios.post("/add-museum", {
+        id: this.museumID,
+        museum_name: this.museumName,
+        museum_city: this.museumCity
+      });
+      this.message = "Thanks for adding a museum!";
+    }
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.museum-submission {
+  max-width: 350px;
+  background: #fafafa;
+  padding: 10px;
+  margin: 50px auto;
+  box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+  border: 6px solid #305a72;
+}
+.museum-submission ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.museum-submission ul li {
+  display: block;
+  margin-bottom: 10px;
+  min-height: 35px;
+}
+</style>
