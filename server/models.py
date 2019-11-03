@@ -19,4 +19,5 @@ class MuseumInfo(db.Model):
     museum_name = db.Column(db.String(200))
     museum_city = db.Column(db.String(200))
 
-# problem is: how to use sessions in python so as to delete all data from table.
+# problem is: how to connect db when pulling data from both: need Museum Name tied to activity
+# not getting either id when making a new activity.

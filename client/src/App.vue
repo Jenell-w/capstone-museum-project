@@ -2,7 +2,7 @@
   <div id="app">
     <img
       v-if="!showMuseumHome"
-      alt="Vue logo"
+      alt="mona-lisa-cartoon"
       src="./assets/cartoon-mona-lisa.jpg"
     />
     <div class="navigation-button">
@@ -14,19 +14,12 @@
       title="Welcome to Family ViewSeums!"
     />
     <MuseumHome v-if="showMuseumHome" />
-
-    <!-- <AddMuseum /> -->
-    <section class="view-activities">
-      <!-- <ViewActivities v-if="!showMuseumHome" /> -->
-    </section>
   </div>
 </template>
 
 <script>
 import MuseumActivities from "./components/MuseumActivities.vue";
 import MuseumHome from "./components/MuseumHome.vue";
-// import AddMuseum from "./components/AddMuseum.vue";
-// import ViewActivities from "./components/ViewActivities.vue";
 
 export default {
   name: "app",

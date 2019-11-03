@@ -38,4 +38,4 @@ def setup_database(app):
             df = pd.read_csv(file)
         # Insert to DB
         df.to_sql('museum_info', con=engine,
-                  index_label='id', if_exists='replace')
+                  index_label="id", if_exists='replace')  # changed index=False. not setting up idfor table.

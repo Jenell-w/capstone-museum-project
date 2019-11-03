@@ -19,12 +19,16 @@ def view_all_museum_activities():
 @museum_api.route('/add-museum', methods=['POST'])
 def add_new_museum():
     new_museum = MuseumInfo()
+    #new_museum.id = request.json["id"]
+    # do we need line above?  still not getting an id generated.
     new_museum.museum_name = request.json["museum_name"]
     new_museum.museum_city = request.json["museum_city"]
     db.session.add(new_museum)
     db.session.commit()
 
     return jsonify(success=True)
+# when a new museum is added, an id is not being generated in the db,
+# therefore breaking the /museum GET request which populates the dropdown box
 
 
 @museum_api.route('/museum', methods=['GET'])
@@ -57,4 +61,4 @@ def delete_activity_fromlist(activity_id):
     db.session.delete(target_activity)
     db.session.commit()
     return jsonify(success=True)
-    # this works via Postman but not on front end! it will delete activity by id.
+    # activity is being deleted but not by correct id.

@@ -18,6 +18,7 @@
     </ul>
     <br />
     <img id="artwork-image" v-bind:src="imgSrc" v-if="imgSrc" />
+    <!-- make the size smaller to do something better with the page -->
   </div>
 </template>
 
@@ -65,5 +66,10 @@ export default {
 .art-button:hover {
   font-style: italic;
   font-size: 100%;
+}
+#artwork-image {
+  -moz-transform: scale(0.65);
+  -webkit-transform: scale(0.65);
+  transform: scale(0.65);
 }
 </style>

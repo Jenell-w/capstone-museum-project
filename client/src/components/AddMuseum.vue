@@ -14,9 +14,9 @@
       </ul>
       <input type="submit" value="Add a Museum you visited" />
     </form>
+    {{ message }}
     <!-- add the api to generate random art and then we can use that route to museums -->
   </div>
-  <!-- need to fix MuseumsAPI file to get the museum entered in db -->
 </template>
 
 <script>
@@ -24,7 +24,7 @@ import axios from "axios";
 
 export default {
   name: "AddMuseum",
-  props: ["museums"],
+  props: ["museums", "museum"],
   data() {
     return {
       museumID: "",
@@ -36,7 +36,7 @@ export default {
   methods: {
     addNewMuseum() {
       axios.post("/add-museum", {
-        id: this.museumID,
+        id: this.museums[0].id,
         museum_name: this.museumName,
         museum_city: this.museumCity
       });
