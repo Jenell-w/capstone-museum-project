@@ -1,8 +1,17 @@
 from flask import Blueprint, jsonify, request
 from sql_alchemy_db_instance import db
 from models import MuseumActivities, MuseumInfo
+from sqlalchemy import func
 
 museum_api = Blueprint('museum_api', __name__)
+
+
+def determine_next_id():
+    max_id = db.session.query(func.max(MuseumInfo.id)).scalar()
+    result = max_id + 1
+    return result
+# This function forces the MuseumsInfo database to create an ID when adding a museum.
+# (see '/add-museum' route)
 
 
 @museum_api.route('/home', methods=['GET'])
@@ -19,16 +28,13 @@ def view_all_museum_activities():
 @museum_api.route('/add-museum', methods=['POST'])
 def add_new_museum():
     new_museum = MuseumInfo()
-    #new_museum.id = request.json["id"]
-    # do we need line above?  still not getting an id generated.
+    new_museum.id = determine_next_id()
     new_museum.museum_name = request.json["museum_name"]
     new_museum.museum_city = request.json["museum_city"]
     db.session.add(new_museum)
     db.session.commit()
 
     return jsonify(success=True)
-# when a new museum is added, an id is not being generated in the db,
-# therefore breaking the /museum GET request which populates the dropdown box
 
 
 @museum_api.route('/museum', methods=['GET'])
@@ -61,4 +67,3 @@ def delete_activity_fromlist(activity_id):
     db.session.delete(target_activity)
     db.session.commit()
     return jsonify(success=True)
-    # activity is being deleted but not by correct id.

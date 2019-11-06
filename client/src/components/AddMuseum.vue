@@ -27,7 +27,6 @@ export default {
   props: ["museums", "museum"],
   data() {
     return {
-      museumID: "",
       museumName: "",
       museumCity: "",
       message: ""
@@ -36,7 +35,6 @@ export default {
   methods: {
     addNewMuseum() {
       axios.post("/add-museum", {
-        id: this.museums[0].id,
         museum_name: this.museumName,
         museum_city: this.museumCity
       });

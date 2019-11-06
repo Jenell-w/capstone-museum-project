@@ -18,7 +18,6 @@
     </ul>
     <br />
     <img id="artwork-image" v-bind:src="imgSrc" v-if="imgSrc" />
-    <!-- make the size smaller to do something better with the page -->
   </div>
 </template>
 
@@ -27,7 +26,7 @@ import axios from "axios";
 
 export default {
   name: "MuseumHome",
-  props: ["activity"],
+  props: [],
   data() {
     return {
       results: [],
@@ -35,15 +34,9 @@ export default {
     };
   },
   methods: {
-    deleteActivity() {
-      axios
-        .delete("/add-activity/" + this.new_activity.id)
-        .then(() => this.viewAllActivities);
-      // this method needs to move to another component with the Patch method?
-    },
     showArtwork() {
       const apiKey = "da60e2a0-f542-11e9-9327-73371ae36eb5";
-      // external API call, random art is shown, wish it was a more vivid, classic collection.
+      // external API call, random art is shown at each click.
       axios
         .get(
           `https://api.harvardartmuseums.org/image?sort=random&apikey=${apiKey}`
@@ -60,8 +53,9 @@ export default {
 
 <style scoped>
 .art-button {
-  background-color: coral;
+  background-color: darkblue;
   font-size: 75%;
+  color: whitesmoke;
 }
 .art-button:hover {
   font-style: italic;

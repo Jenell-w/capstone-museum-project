@@ -15,9 +15,7 @@ class MuseumActivities(db.Model):
 
 
 class MuseumInfo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True,
+                   autoincrement=True)
     museum_name = db.Column(db.String(200))
     museum_city = db.Column(db.String(200))
-
-# problem is: how to connect db when pulling data from both: need Museum Name tied to activity
-# not getting either id when making a new activity.
