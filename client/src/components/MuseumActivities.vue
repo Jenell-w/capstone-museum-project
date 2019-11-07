@@ -1,116 +1,20 @@
 <template>
   <div class="hello">
     <h1>{{ title }}</h1>
-    <h2>
-      Visting an art museum can be kid-friendly: let us show you how!
-      <br />Here is something you can do at the museum with your children before
-      you visit.
-    </h2>
-    <MuseumHome />
-    <h3>
-      Please enter a fun activity you have completed (or attempted!) at a museum
-      with your children!
-    </h3>
-    <br />
-    <!-- <div class="container"> -->
-    <form class="activity-submission" @submit="handleSubmit">
-      <ul class="flex-outer">
-        <li>
-          <label for="museum-name"
-            >Select the museum you visited: (or, add a new museum below!)</label
-          >
-
-          <!-- select drop down reads from museum_info table in db -->
-          <select id="museum-name" v-model="museum" name="Select a museum">
-            <option
-              v-for="museum in museums"
-              :key="museum.id"
-              :value="museum.id"
-              >{{ museum.museum_name }}</option
-            >
-          </select>
-        </li>
-        <div class="show-add-museum">
-          <!-- 
-          would be nice to load this component on click of button!!-->
-          <AddMuseum />
-        </div>
-        <li>
-          <label for="activity-name">What fun activity did you do?</label>
-          <input id="activity-name" v-model="activityName" />
-        </li>
-        <li>
-          <label for="activity-description">Describe the activity:</label>
-          <textarea
-            rows="6"
-            placeholder="What did you bring? What did you do?"
-            id="activity-description"
-            v-model="activityDescription"
-          ></textarea>
-        </li>
-        <li>
-          <label for="number-of-kids">How many kids did you bring?</label>
-          <select id="number-of-kids" v-model.number="numberOfKids">
-            <option>0</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-          </select>
-        </li>
-        <li>
-          <label for="low-age-range"
-            >Youngest child's age (Please select 0 if child is under 1):</label
-          >
-          <select id="low-age-range" v-model.number="lowAgeRange">
-            <option>0</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-            <option>9</option>
-            <option>10</option>
-            <option>11</option>
-            <option>12</option>
-          </select>
-        </li>
-        <li>
-          <label for="high-age-range">Oldest child's age:</label>
-          <select id="high-age-range" v-model.number="highAgeRange">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-            <option>9</option>
-            <option>10</option>
-            <option>11</option>
-            <option>12</option>
-          </select>
-        </li>
-        <li>
-          <input type="submit" value="Tell us about it!" />
-        </li>
-      </ul>
-    </form>
-
-    <div class="submitted-message" v-if="confirmationSubmit">
-      <p>
-        <i>{{ confirmationSubmit }}</i>
-      </p>
+    <div class="museum-buttons">
+      <button class="museum-info-button" @click="navButton">
+        {{ buttonText }}
+      </button>
+      <component v-bind:is="component" />
     </div>
 
-    <hr />
-    <section class="display-user-input">
-      <p>Some user suggested activities:</p>
-      <hr />
+    <MuseumHome />
+    <h1>DURING Your Visit</h1>
+    <br />
+    <button class="activity-button" @click="isHidden = !isHidden">
+      Browse Our Family Activities!
+    </button>
+    <section v-show="isHidden" class="display-user-input">
       <div
         class="museum-activity"
         v-for="activity in activities"
@@ -132,6 +36,105 @@
         </button>
       </div>
     </section>
+    <h1>AFTER Your Visit</h1>
+    <h3>
+      Share a fun activity you have completed (or attempted!) at a museum with
+      your children!
+    </h3>
+    <br />
+    <div class="container">
+      <form class="activity-submission" @submit="handleSubmit">
+        <ul class="flex-outer">
+          <li>
+            <label for="museum-name">
+              Select the museum you visited: (or, add a new museum below!)
+            </label>
+
+            <!-- select drop down reads from museum_info table in db -->
+            <select id="museum-name" v-model="museum" name="Select a museum">
+              <option
+                v-for="museum in museums"
+                :key="museum.id"
+                :value="museum.id"
+                >{{ museum.museum_name }}</option
+              >
+            </select>
+          </li>
+          <div class="show-add-museum">
+            <AddMuseum />
+          </div>
+          <li>
+            <label for="activity-name">What fun activity did you do?</label>
+            <input id="activity-name" v-model="activityName" />
+          </li>
+          <li>
+            <label for="activity-description">Describe the activity:</label>
+            <textarea
+              rows="6"
+              placeholder="What did you bring? What did you do?"
+              id="activity-description"
+              v-model="activityDescription"
+            ></textarea>
+          </li>
+          <li>
+            <label for="number-of-kids">How many kids did you bring?</label>
+            <select id="number-of-kids" v-model.number="numberOfKids">
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </select>
+          </li>
+          <li>
+            <label for="low-age-range">
+              Youngest child's age (Please select 0 if child is under 1):
+            </label>
+            <select id="low-age-range" v-model.number="lowAgeRange">
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+            </select>
+          </li>
+          <li>
+            <label for="high-age-range">Oldest child's age:</label>
+            <select id="high-age-range" v-model.number="highAgeRange">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+            </select>
+          </li>
+          <li>
+            <button type="submit">Share with the World!</button>
+          </li>
+        </ul>
+      </form>
+    </div>
+
+    <div class="submitted-message" v-if="confirmationSubmit">
+      <p>
+        <i>{{ confirmationSubmit }}</i>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -139,12 +142,14 @@
 import axios from "axios";
 import AddMuseum from "./AddMuseum.vue";
 import MuseumHome from "./MuseumHome.vue";
+import MuseumInfo from "./MuseumInfo.vue";
 export default {
   name: "MuseumActivities",
   props: ["title"],
   components: {
     AddMuseum,
-    MuseumHome
+    MuseumHome,
+    MuseumInfo
   },
   data() {
     return {
@@ -158,8 +163,10 @@ export default {
       lowAgeRange: "",
       highAgeRange: "",
       confirmationSubmit: "",
-      showAddMuseum: false
-      //can activities be on a child component page to display?  good idea.
+      showAddMuseum: false,
+      isHidden: false,
+      component: "",
+      buttonText: "Get Information about museums"
     };
   },
   methods: {
@@ -192,11 +199,16 @@ export default {
       axios
         .delete("/activity/" + id) //not deleting right activity
         .then(() => this.viewAllActivities());
+    },
+    navButton() {
+      if (this.component === "") {
+        this.component = MuseumInfo;
+        this.buttonText = "Hide Museum Information";
+      } else {
+        this.component = "";
+        this.buttonText = "Get Information about museums";
+      }
     }
-    // showAddMuseumComponent() {
-    //   showAddMuseum == true;
-    //   // return componentName; try to render AddMuseum on click!
-    // }
   },
   watch: {
     museum() {
@@ -208,8 +220,6 @@ export default {
   },
   mounted() {
     this.museumList();
-
-    //the most recently entered activity will display at bottom.
   }
 };
 </script>
@@ -223,11 +233,36 @@ export default {
 * {
   box-sizing: border-box;
 }
+.container {
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.container * {
+  box-sizing: border-box;
+  font: normal 14px/1.5 "Fira Sans", "Helvetica Neue", sans-serif;
+}
+.flex-outer {
+  list-style-type: none;
+  padding: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
 .flex-outer li {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   margin: 0 5px;
+}
+.flex-outer > li:not(:last-child) {
+  margin-bottom: 20px;
+}
+.flex-outer li label,
+.flex-outer li p {
+  padding: 8px;
+  font-weight: 300;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 .flex-outer > li > label,
 .flex-outer li p {
@@ -235,10 +270,13 @@ export default {
   max-width: 220px;
   margin: 0 5px;
 }
-.flex-outer li button {
+.flex-outer li button,
+.activity-button,
+.museum-info-button {
   margin-left: auto;
+  margin: 10px;
   padding: 8px 16px;
-  border: none;
+  border: white;
   background: #333;
   color: #f2f2f2;
   text-transform: uppercase;
@@ -246,8 +284,10 @@ export default {
   border-radius: 2px;
 }
 .activity-submission {
+  font: normal 14px/1.5 "Fira Sans", "Helvetica Neue", sans-serif;
+  background: grey;
+  color: #fff;
   border-radius: 5px;
-  background-color: rgb(243, 235, 220);
-  padding: 35px;
+  padding: 20px;
 }
 </style>

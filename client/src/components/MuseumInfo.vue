@@ -33,9 +33,7 @@ export default {
       metLink: ""
     };
   },
-  methods: {
-    showMet() {}
-  }
+  methods: {}
 };
 </script>
 <style scoped></style>

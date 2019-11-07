@@ -11,11 +11,12 @@
           <label for="museum-city">Museum City:</label>
           <input id="museum-city" v-model="museumCity" />
         </li>
+        <li>
+          <button type="submit">Add a Museum you visited</button>
+        </li>
       </ul>
-      <input type="submit" value="Add a Museum you visited" />
     </form>
     {{ message }}
-    <!-- add the api to generate random art and then we can use that route to museums -->
   </div>
 </template>
 
@@ -47,12 +48,16 @@ export default {
 <style scoped>
 .museum-submission {
   max-width: 350px;
-  background: #fafafa;
+  background: darkgrey;
   padding: 10px;
   margin: 50px auto;
   box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.35);
   border-radius: 10px;
   border: 6px solid #305a72;
+  font: normal 18px/1.5 "Fira Sans", "Helvetica Neue", sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 .museum-submission ul {
   padding: 0;
@@ -63,5 +68,15 @@ export default {
   display: block;
   margin-bottom: 10px;
   min-height: 35px;
+}
+li button {
+  margin-left: auto;
+  padding: 8px 16px;
+  border: none;
+  background: #333;
+  color: #f2f2f2;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  border-radius: 2px;
 }
 </style>
