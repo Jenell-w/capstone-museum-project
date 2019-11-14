@@ -18,9 +18,8 @@
         <li>Denver Art Museum</li>
       </a>
     </ul>
-    <!-- Ideally, i would love to display an embed code from googlemaps or wikipedia that 
-    displays below each museum name, so the information remains on the page. But for now,
-    I will just use a link.-->
+    <!-- Ideally, i would love to display an iframe embed code from googlemaps or wikipedia that 
+    displays below each museum name, so the information remains on the page.-->
   </div>
 </template>
 
@@ -32,8 +31,7 @@ export default {
     return {
       metLink: ""
     };
-  },
-  methods: {}
+  }
 };
 </script>
 <style scoped></style>

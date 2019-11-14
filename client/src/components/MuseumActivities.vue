@@ -46,9 +46,10 @@
       <form class="activity-submission" @submit="handleSubmit">
         <ul class="flex-outer">
           <li>
-            <label for="museum-name">
-              Select the museum you visited: (or, add a new museum below!)
-            </label>
+            <label for="museum-name"
+              >Select the museum you visited: (or, add a new museum
+              below!)</label
+            >
 
             <!-- select drop down reads from museum_info table in db -->
             <select id="museum-name" v-model="museum" name="Select a museum">
@@ -87,9 +88,10 @@
             </select>
           </li>
           <li>
-            <label for="low-age-range">
-              Youngest child's age (Please select 0 if child is under 1):
-            </label>
+            <label for="low-age-range"
+              >Youngest child's age (Please select 0 if child is under
+              1):</label
+            >
             <select id="low-age-range" v-model.number="lowAgeRange">
               <option>0</option>
               <option>1</option>
@@ -220,6 +222,7 @@ export default {
   },
   mounted() {
     this.museumList();
+    this.viewAllActivities();
   }
 };
 </script>
