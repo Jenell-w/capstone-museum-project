@@ -13,8 +13,10 @@ def add_vue_routes(app):
         return req
 
 
+app = create_app()
+add_vue_routes(app)
+setup_database(app)
+
 if __name__ == '__main__':
-    app = create_app()
-    add_vue_routes(app)
-    setup_database(app)
+
     app.run(debug=True)

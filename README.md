@@ -46,4 +46,4 @@ Note: if RUN_ENVIRONMENT == 'network', the app will connect to postgres accordin
 
 **when db is created, it will be seeded with museum name/ city data from a short csv file.**
 
-Features: My app can write to a database, read from that database, delete as well. I also call an external API to do a preparation activity, which involves the appearance of a random piece of artwork from the Harvard University Museum collection.
+Features: My app can write to a database, read from that database, delete as well. I also call an external API to do a preparation activity, which involves the display of a random piece of artwork from the Harvard University Museum collection.
