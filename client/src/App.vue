@@ -44,8 +44,22 @@ export default {
   display: inline-block;
 }
 img.header-image {
-  display: block;
+  display: flex;
+  align-items: center;
+}
+.flex-outer li button,
+.activity-button,
+.art-button,
+.delete-activity,
+.museum-info-button {
   margin-left: auto;
-  margin-right: auto;
+  margin: 10px;
+  padding: 8px 16px;
+  border: white;
+  background: #333;
+  color: #f2f2f2;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  border-radius: 2px;
 }
 </style>

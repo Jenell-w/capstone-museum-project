@@ -2,18 +2,14 @@
   <div class="hello">
     <h1>{{ title }}</h1>
     <div class="museum-buttons">
-      <button class="museum-info-button" @click="navButton">
-        {{ buttonText }}
-      </button>
+      <button class="museum-info-button" @click="navButton">{{ MuseumInfobuttonText }}</button>
       <component v-bind:is="component" />
     </div>
 
     <MuseumHome />
     <h1>DURING Your Visit</h1>
     <br />
-    <button class="activity-button" @click="isHidden = !isHidden">
-      Browse Our Family Activities!
-    </button>
+    <button class="activity-button" @click="isHidden = !isHidden">{{ familyActivitiesButtonText1 }}</button>
     <section v-show="isHidden" class="display-user-input">
       <div
         class="museum-activity"
@@ -25,15 +21,13 @@
           Museum visited:
           {{ museums.find(m => m.id === activity.museum_id).museum_name }}
         </p>
-        <p>Name of Activity: {{ activity.activity_name }}</p>
-        <p>Description of activity: {{ activity.activity_descrip }}</p>
-        <p>Oldest child:{{ activity.high_age_range }}</p>
-        <p>Youngest child:{{ activity.low_age_range }}</p>
-        <p>Number of children taken:{{ activity.num_kids_taken }}</p>
+        <p>What we did: {{ activity.activity_name }}</p>
+        <p>Description: {{ activity.activity_descrip }}</p>
+        <p>Age of oldest child:{{ activity.high_age_range }}</p>
+        <p>Age of youngest child:{{ activity.low_age_range }}</p>
+        <p>How many children went:{{ activity.num_kids_taken }}</p>
 
-        <button class="delete-activity" @click="deleteActivity(activity.id)">
-          Delete this activity
-        </button>
+        <button class="delete-activity" @click="deleteActivity(activity.id)">Delete this activity</button>
       </div>
     </section>
     <h1>AFTER Your Visit</h1>
@@ -46,10 +40,7 @@
       <form class="activity-submission" @submit="handleSubmit">
         <ul class="flex-outer">
           <li>
-            <label for="museum-name"
-              >Select the museum you visited: (or, add a new museum
-              below!)</label
-            >
+            <label for="museum-name">Select the museum you visited: (or, add a new museum below!)</label>
 
             <!-- select drop down reads from museum_info table in db -->
             <select id="museum-name" v-model="museum" name="Select a museum">
@@ -57,8 +48,7 @@
                 v-for="museum in museums"
                 :key="museum.id"
                 :value="museum.id"
-                >{{ museum.museum_name }}</option
-              >
+              >{{ museum.museum_name }}</option>
             </select>
           </li>
           <div class="show-add-museum">
@@ -88,10 +78,7 @@
             </select>
           </li>
           <li>
-            <label for="low-age-range"
-              >Youngest child's age (Please select 0 if child is under
-              1):</label
-            >
+            <label for="low-age-range">Youngest child's age (Please select 0 if child is under 1):</label>
             <select id="low-age-range" v-model.number="lowAgeRange">
               <option>0</option>
               <option>1</option>
@@ -131,7 +118,7 @@
         </ul>
       </form>
     </div>
-
+    <!-- not sure if this is appearing so sub for a Flash message?? -->
     <div class="submitted-message" v-if="confirmationSubmit">
       <p>
         <i>{{ confirmationSubmit }}</i>
@@ -168,7 +155,8 @@ export default {
       showAddMuseum: false,
       isHidden: false,
       component: "",
-      buttonText: "Get Information about museums"
+      MuseumInfobuttonText: "Get Information about museums",
+      familyActivitiesButtonText1: "View Some Family Activities"
     };
   },
   methods: {
@@ -193,22 +181,19 @@ export default {
       axios.get("/museum").then(res => {
         this.museums = res.data.museums;
         this.museum = this.museums[0].id;
-        console.log("our museums are ", this.museums);
         this.viewAllActivities();
       });
     },
     deleteActivity(id) {
-      axios
-        .delete("/activity/" + id) //not deleting right activity
-        .then(() => this.viewAllActivities());
+      axios.delete("/activity/" + id).then(() => this.viewAllActivities());
     },
     navButton() {
       if (this.component === "") {
         this.component = MuseumInfo;
-        this.buttonText = "Hide Museum Information";
+        this.MuseumInfobuttonText = "Hide Museum Information";
       } else {
         this.component = "";
-        this.buttonText = "Get Information about museums";
+        this.MuseumInfobuttonText = "Get Information about museums";
       }
     }
   },
@@ -272,19 +257,6 @@ export default {
   flex: 1 0 120px;
   max-width: 220px;
   margin: 0 5px;
-}
-.flex-outer li button,
-.activity-button,
-.museum-info-button {
-  margin-left: auto;
-  margin: 10px;
-  padding: 8px 16px;
-  border: white;
-  background: #333;
-  color: #f2f2f2;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  border-radius: 2px;
 }
 .activity-submission {
   font: normal 14px/1.5 "Fira Sans", "Helvetica Neue", sans-serif;

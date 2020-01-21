@@ -5,9 +5,7 @@
         class="art-button"
         @click="showArtActivity = !showArtActivity"
         @click.prevent="showArtwork"
-      >
-        Click for Artwork and Activity!
-      </button>
+      >Click for Artwork and Activity!</button>
       <br />
       <div v-show="showArtActivity">
         <p>
@@ -62,19 +60,17 @@ export default {
 </script>
 
 <style scoped>
-.art-button {
-  margin-left: auto;
-  padding: 8px 16px;
-  border: none;
-  background: #333;
-  color: #f2f2f2;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  border-radius: 2px;
-}
 img.artwork-image {
-  -moz-transform: scale(0.65);
-  -webkit-transform: scale(0.65);
-  transform: scale(0.65);
+  display: flex;
+  align-items: left;
+  justify-content: center;
+  -moz-transform: scale(0.5);
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+  margin-top: 0;
+  padding-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding-right: 0;
 }
 </style>

@@ -5,6 +5,7 @@
       <ul>
         <li>
           <label for="museum-name">Museum Name:</label>
+          <!-- DOM is complaining this input has the same id as a select input on MuseumActivities.vue -->
           <input id="museum-name" v-model="museumName" />
         </li>
         <li>
@@ -16,7 +17,7 @@
         </li>
       </ul>
     </form>
-    {{ message }}
+    <p>{{ message }}</p>
   </div>
 </template>
 
